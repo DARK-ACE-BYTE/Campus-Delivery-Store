@@ -134,6 +134,61 @@ const demoProducts: Product[] = [
   { id: 5, name: 'Meat Pie', category: 'Snacks', description: 'Flaky pastry with a savory beef filling.', emoji: '🥧', available: true, createdAt: new Date().toISOString() },
   { id: 6, name: 'Extension Board', category: 'Home', description: 'Add extra sockets for your room setup and devices.', emoji: '🔋', available: true, createdAt: new Date().toISOString() },
 ];
+
+const catalogAdditions: Product[] = [
+  { id: -1, name: 'Sachet Water Bags', category: 'Food & Water', description: 'Cold sachet water for rooms, lectures, and everyday refreshment.', emoji: '💧', available: true, createdAt: new Date().toISOString() },
+  { id: -2, name: 'Indomie Noodles', category: 'Food & Water', description: 'Quick noodles for late study nights and easy meals.', emoji: '🍜', available: true, createdAt: new Date().toISOString() },
+  { id: -3, name: 'Eggs', category: 'Food & Water', description: 'Fresh eggs for breakfast and hostel cooking.', emoji: '🥚', available: true, createdAt: new Date().toISOString() },
+  { id: -4, name: 'Sardines', category: 'Food & Water', description: 'Canned sardines for quick meals and study-night provisions.', emoji: '🥫', available: true, createdAt: new Date().toISOString() },
+  { id: -5, name: 'Gari', category: 'Food & Water', description: 'A hostel staple for quick meals and snacks.', emoji: '🌾', available: true, createdAt: new Date().toISOString() },
+  { id: -6, name: 'Sugar', category: 'Food & Water', description: 'Everyday sugar for tea, porridge, and drinks.', emoji: '🧂', available: true, createdAt: new Date().toISOString() },
+  { id: -7, name: 'Milk', category: 'Food & Water', description: 'Milk for breakfast, Milo, oats, and tea.', emoji: '🥛', available: true, createdAt: new Date().toISOString() },
+  { id: -8, name: 'Oats', category: 'Food & Water', description: 'Easy breakfast oats for busy mornings.', emoji: '🥣', available: true, createdAt: new Date().toISOString() },
+  { id: -9, name: 'Cooking Oil', category: 'Food & Water', description: 'Cooking oil for simple hostel meals.', emoji: '🫗', available: true, createdAt: new Date().toISOString() },
+  { id: -10, name: 'Rice', category: 'Food & Water', description: 'A reliable pantry staple for hostel cooking.', emoji: '🍚', available: true, createdAt: new Date().toISOString() },
+  { id: -11, name: 'Canned Tomatoes', category: 'Food & Water', description: 'Tomatoes for stews, sauces, and quick meals.', emoji: '🍅', available: true, createdAt: new Date().toISOString() },
+  { id: -12, name: 'Sponge', category: 'Toiletries & Cleaning', description: 'Bath sponge for your daily routine.', emoji: '🧽', available: true, createdAt: new Date().toISOString() },
+  { id: -13, name: 'Toothbrush', category: 'Toiletries & Cleaning', description: 'Everyday toothbrush for your hostel kit.', emoji: '🪥', available: true, createdAt: new Date().toISOString() },
+  { id: -14, name: 'Roll-on Deodorant', category: 'Toiletries & Cleaning', description: 'Fresh roll-on deodorant for long campus days.', emoji: '🧴', available: true, createdAt: new Date().toISOString() },
+  { id: -15, name: 'Body Spray', category: 'Toiletries & Cleaning', description: 'Keep feeling fresh between classes and activities.', emoji: '✨', available: true, createdAt: new Date().toISOString() },
+  { id: -16, name: 'Toilet Roll', category: 'Toiletries & Cleaning', description: 'Soft toilet roll for hostel and home use.', emoji: '🧻', available: true, createdAt: new Date().toISOString() },
+  { id: -17, name: 'Detergent', category: 'Toiletries & Cleaning', description: 'Laundry detergent for fresh hostel clothes.', emoji: '🫧', available: true, createdAt: new Date().toISOString() },
+  { id: -18, name: 'Bleach', category: 'Toiletries & Cleaning', description: 'Cleaning bleach for bathrooms and surfaces.', emoji: '🧴', available: true, createdAt: new Date().toISOString() },
+  { id: -19, name: 'Parazone', category: 'Toiletries & Cleaning', description: 'Toilet and bathroom cleaning essential.', emoji: '🧼', available: true, createdAt: new Date().toISOString() },
+  { id: -20, name: 'Mop', category: 'Toiletries & Cleaning', description: 'Keep your room and hostel space clean.', emoji: '🧹', available: true, createdAt: new Date().toISOString() },
+  { id: -21, name: 'Bucket', category: 'Toiletries & Cleaning', description: 'Useful bucket for laundry, bathing, and room chores.', emoji: '🪣', available: true, createdAt: new Date().toISOString() },
+  { id: -22, name: 'Dettol', category: 'Toiletries & Cleaning', description: 'Trusted antiseptic for everyday hygiene.', emoji: '🧴', available: true, createdAt: new Date().toISOString() },
+  { id: -23, name: 'Hand Sanitizer', category: 'Toiletries & Cleaning', description: 'Pocket-sized hand sanitizer for campus days.', emoji: '🫧', available: true, createdAt: new Date().toISOString() },
+  { id: -24, name: 'Student Mattress', category: 'Hostel Essentials', description: 'Comfortable student mattress for your new room setup.', emoji: '🛏️', available: true, createdAt: new Date().toISOString() },
+  { id: -25, name: 'Pillow', category: 'Hostel Essentials', description: 'Soft pillow for better hostel rest.', emoji: '🛌', available: true, createdAt: new Date().toISOString() },
+  { id: -26, name: 'Bedsheet', category: 'Hostel Essentials', description: 'Fresh bedsheet for your hostel room.', emoji: '🛏️', available: true, createdAt: new Date().toISOString() },
+  { id: -27, name: 'Mosquito Coil', category: 'Hostel Essentials', description: 'Mosquito protection for evenings and nights.', emoji: '🦟', available: true, createdAt: new Date().toISOString() },
+  { id: -28, name: 'Mosquito Net', category: 'Hostel Essentials', description: 'Practical mosquito net for a comfortable night.', emoji: '🛌', available: true, createdAt: new Date().toISOString() },
+  { id: -29, name: 'Bulb', category: 'Hostel Essentials', description: 'Replacement bulb for your room or study space.', emoji: '💡', available: true, createdAt: new Date().toISOString() },
+  { id: -30, name: 'Torchlight', category: 'Hostel Essentials', description: 'Handy light for power cuts and late-night movement.', emoji: '🔦', available: true, createdAt: new Date().toISOString() },
+  { id: -31, name: 'Padlock', category: 'Hostel Essentials', description: 'Secure your room, box, or personal storage.', emoji: '🔒', available: true, createdAt: new Date().toISOString() },
+  { id: -32, name: 'Dustpan', category: 'Hostel Essentials', description: 'Simple cleaning tool for your hostel room.', emoji: '🧹', available: true, createdAt: new Date().toISOString() },
+  { id: -33, name: 'Water Bottle', category: 'Hostel Essentials', description: 'Reusable bottle for classes, lectures, and workouts.', emoji: '🚰', available: true, createdAt: new Date().toISOString() },
+  { id: -34, name: 'Food Flask', category: 'Hostel Essentials', description: 'Carry warm meals from home or the chop bar.', emoji: '🍱', available: true, createdAt: new Date().toISOString() },
+  { id: -35, name: 'A4 Sheets', category: 'Academic Stuff', description: 'A4 paper for assignments, printing, and submissions.', emoji: '📄', available: true, createdAt: new Date().toISOString() },
+  { id: -36, name: 'Notebooks', category: 'Academic Stuff', description: 'Keep lecture notes organised across your courses.', emoji: '📓', available: true, createdAt: new Date().toISOString() },
+  { id: -37, name: 'Pens', category: 'Academic Stuff', description: 'Reliable pens for lectures, exams, and assignments.', emoji: '🖊️', available: true, createdAt: new Date().toISOString() },
+  { id: -38, name: 'Markers', category: 'Academic Stuff', description: 'Markers for presentations, posters, and study notes.', emoji: '🖍️', available: true, createdAt: new Date().toISOString() },
+  { id: -39, name: 'Calculator', category: 'Academic Stuff', description: 'Handy calculator for maths, science, and business courses.', emoji: '🧮', available: true, createdAt: new Date().toISOString() },
+  { id: -40, name: 'Mathematical Set', category: 'Academic Stuff', description: 'Essential geometry tools for coursework and exams.', emoji: '📐', available: true, createdAt: new Date().toISOString() },
+  { id: -41, name: 'Manila Folder', category: 'Academic Stuff', description: 'Keep handouts and important papers together.', emoji: '📁', available: true, createdAt: new Date().toISOString() },
+  { id: -42, name: 'File Jackets', category: 'Academic Stuff', description: 'Protect notes, assignments, and project documents.', emoji: '🗂️', available: true, createdAt: new Date().toISOString() },
+  { id: -43, name: 'Biscuits', category: 'Quick Chop / Snacks', description: 'Easy snack for lectures, travel, and study breaks.', emoji: '🍪', available: true, createdAt: new Date().toISOString() },
+  { id: -44, name: 'FanYogo', category: 'Quick Chop / Snacks', description: 'Chilled yoghurt snack for a quick campus refreshment.', emoji: '🥤', available: true, createdAt: new Date().toISOString() },
+  { id: -45, name: 'FanIce', category: 'Quick Chop / Snacks', description: 'Cold ice cream treat for hot Sunyani afternoons.', emoji: '🍦', available: true, createdAt: new Date().toISOString() },
+  { id: -46, name: 'Toffee', category: 'Quick Chop / Snacks', description: 'Small sweet treat for your bag or desk.', emoji: '🍬', available: true, createdAt: new Date().toISOString() },
+  { id: -47, name: 'Chewing Gum', category: 'Quick Chop / Snacks', description: 'Pocket-sized refreshment for busy days.', emoji: '🍬', available: true, createdAt: new Date().toISOString() },
+  { id: -48, name: 'Milo + Bread Combo', category: 'Quick Chop / Snacks', description: 'A practical night-study combo for late lectures and revision.', emoji: '🍞', available: true, createdAt: new Date().toISOString() },
+  { id: -49, name: 'MTN Data Bundle', category: 'Data & Airtime', description: 'MTN data bundle — send your preferred bundle size in WhatsApp.', emoji: '📶', available: true, createdAt: new Date().toISOString() },
+  { id: -50, name: 'Telecel Data Bundle', category: 'Data & Airtime', description: 'Telecel data bundle — send your preferred bundle size in WhatsApp.', emoji: '📶', available: true, createdAt: new Date().toISOString() },
+  { id: -51, name: 'AT Data Bundle', category: 'Data & Airtime', description: 'AT data bundle — send your preferred bundle size in WhatsApp.', emoji: '📶', available: true, createdAt: new Date().toISOString() },
+  { id: -52, name: 'Airtime — All Networks', category: 'Data & Airtime', description: 'Airtime for MTN, Telecel, AT, and other supported networks.', emoji: '📱', available: true, createdAt: new Date().toISOString() },
+];
 const formatDate = (value: string) =>
   new Intl.DateTimeFormat('en-GH', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }).format(
     new Date(value),
@@ -270,7 +325,9 @@ function Storefront() {
   const [category, setCategory] = useState('All');
   const [cart, setCart] = useState<Record<number, number>>({});
   const [cartOpen, setCartOpen] = useState(false);
-  const safeProducts = Array.isArray(products) ? products : demoProducts;
+  const liveProducts = Array.isArray(products) ? products : [];
+  const liveNames = new Set(liveProducts.map((product) => product.name.toLowerCase()));
+  const safeProducts = [...(liveProducts.length ? liveProducts : demoProducts), ...catalogAdditions.filter((product) => !liveNames.has(product.name.toLowerCase()))];
   const categories = ['All', ...Array.from(new Set(safeProducts.map((product) => product.category)))];
   const filtered = useMemo(() => safeProducts.filter((product) => (category === 'All' || product.category === category) && `${product.name} ${product.description}`.toLowerCase().includes(search.toLowerCase())), [safeProducts, category, search]);
   const cartCount = Object.values(cart).reduce((sum, count) => sum + count, 0);
