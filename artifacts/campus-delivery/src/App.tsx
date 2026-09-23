@@ -62,7 +62,7 @@ const clerkPubKey = publishableKeyFromHost(
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const WHATSAPP_NUMBER = '233507479153';
-const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'campusdeliverystore@gmail.com';
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'Joeboyfru@gmail.com';
 const whatsappUrl = (message = 'Hello Campus Delivery, I would like to make an enquiry.') =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent('Campus Delivery enquiry')}`;

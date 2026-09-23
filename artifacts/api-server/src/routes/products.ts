@@ -8,6 +8,7 @@ import {
   DeleteProductParams,
 } from "@workspace/api-zod";
 import { requireAuth } from "../middlewares/requireAuth";
+import { ensureExpandedCatalog } from "../catalog";
 
 const router: IRouter = Router();
 
@@ -20,6 +21,7 @@ function serializeProduct(product: typeof productsTable.$inferSelect) {
 }
 
 router.get("/products", async (_req, res) => {
+  await ensureExpandedCatalog();
   const products = await db.select().from(productsTable).orderBy(asc(productsTable.category), asc(productsTable.name));
   res.json(products.map(serializeProduct));
 });
