@@ -125,6 +125,15 @@ const productImages: Record<string, string> = {
 function productImage(name: string) {
   return productImages[name.toLowerCase()] || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85';
 }
+
+const demoProducts: Product[] = [
+  { id: 1, name: 'Bottled Water', category: 'Drinks', description: 'Cold 500ml bottled water.', emoji: '💧', available: true, createdAt: new Date().toISOString() },
+  { id: 2, name: 'Fresh Bread', category: 'Groceries', description: 'Soft sliced bread for breakfast and quick meals.', emoji: '🍞', available: true, createdAt: new Date().toISOString() },
+  { id: 3, name: 'Fast Phone Charger', category: 'Electronics', description: 'Compact wall charger for your everyday devices.', emoji: '⚡', available: true, createdAt: new Date().toISOString() },
+  { id: 4, name: 'Bathing Soap', category: 'Personal Care', description: 'Fresh everyday soap for your hostel bathroom.', emoji: '🧼', available: true, createdAt: new Date().toISOString() },
+  { id: 5, name: 'Meat Pie', category: 'Snacks', description: 'Flaky pastry with a savory beef filling.', emoji: '🥧', available: true, createdAt: new Date().toISOString() },
+  { id: 6, name: 'Extension Board', category: 'Home', description: 'Add extra sockets for your room setup and devices.', emoji: '🔋', available: true, createdAt: new Date().toISOString() },
+];
 const formatDate = (value: string) =>
   new Intl.DateTimeFormat('en-GH', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }).format(
     new Date(value),
@@ -261,7 +270,7 @@ function Storefront() {
   const [category, setCategory] = useState('All');
   const [cart, setCart] = useState<Record<number, number>>({});
   const [cartOpen, setCartOpen] = useState(false);
-  const safeProducts = products ?? [];
+  const safeProducts = Array.isArray(products) ? products : demoProducts;
   const categories = ['All', ...Array.from(new Set(safeProducts.map((product) => product.category)))];
   const filtered = useMemo(() => safeProducts.filter((product) => (category === 'All' || product.category === category) && `${product.name} ${product.description}`.toLowerCase().includes(search.toLowerCase())), [safeProducts, category, search]);
   const cartCount = Object.values(cart).reduce((sum, count) => sum + count, 0);
