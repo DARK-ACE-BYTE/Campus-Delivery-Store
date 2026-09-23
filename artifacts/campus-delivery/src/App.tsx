@@ -14,6 +14,8 @@ import {
   FilePenLine,
   LoaderCircle,
   LogOut,
+  Mail,
+  MessageCircle,
   Minus,
   Package,
   Plus,
@@ -22,6 +24,9 @@ import {
   Trash2,
   Truck,
   X,
+  ShieldCheck,
+  Star,
+  Zap,
 } from 'lucide-react';
 import {
   getGetDashboardSummaryQueryKey,
@@ -56,6 +61,22 @@ const clerkPubKey = publishableKeyFromHost(
 );
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const WHATSAPP_NUMBER = '233507479153';
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'campusdeliverystore@gmail.com';
+const whatsappUrl = (message = 'Hello Campus Delivery, I would like to make an enquiry.') =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent('Campus Delivery enquiry')}`;
+
+const categoryImages: Record<string, string> = {
+  Drinks: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=82',
+  Electronics: 'https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=800&q=82',
+  Fashion: 'https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=800&q=82',
+  Groceries: 'https://images.unsplash.com/photo-1543168256-418811576931?auto=format&fit=crop&w=800&q=82',
+  Home: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=800&q=82',
+  Meals: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=82',
+  'Personal Care': 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=800&q=82',
+  Snacks: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?auto=format&fit=crop&w=800&q=82',
+};
 
 function stripBase(path: string): string {
   return basePath && path.startsWith(basePath)
@@ -147,11 +168,11 @@ function ProductCard({ product, quantity, onAdd, onChange }: {
   const visual = product.emoji || product.name.slice(0, 1).toUpperCase();
   return (
     <article className="group rise-in overflow-hidden rounded-[1.4rem] border border-border bg-card shadow-[0_8px_30px_rgba(35,52,54,.04)] transition-transform duration-300 hover:-translate-y-1" data-testid={`card-product-${product.id}`}>
-      <div className="relative grid h-40 place-items-center overflow-hidden bg-secondary/10">
-        <div className="absolute -right-6 -top-9 size-28 rounded-full bg-accent/40 transition-transform duration-500 group-hover:scale-125" />
-        <div className="absolute -bottom-12 -left-4 size-24 rounded-full bg-primary/10" />
-        <span className="relative select-none text-6xl leading-none drop-shadow-sm" aria-label={`${product.name} product image`} data-testid={`img-product-${product.id}`}>{visual}</span>
-        {!product.available && <span className="absolute left-3 top-3 rounded-full bg-foreground/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-background">Sold out</span>}
+      <div className="relative h-44 overflow-hidden bg-secondary/10">
+        <img src={categoryImages[product.category]} alt={`${product.name} — ${product.category}`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" data-testid={`img-product-${product.id}`} />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/45 via-transparent to-transparent" />
+        <span className="absolute bottom-3 left-3 grid size-10 place-items-center rounded-xl border border-white/40 bg-white/90 text-xl shadow-lg backdrop-blur" aria-hidden="true">{visual}</span>
+        {!product.available && <span className="absolute right-3 top-3 rounded-full bg-foreground/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-background">Sold out</span>}
       </div>
       <div className="p-4">
         <div className="mb-2 flex items-start justify-between gap-2">
@@ -201,7 +222,7 @@ function CartSheet({ cart, products, onChange, onClose, onClear }: {
         const message = `Hello Campus Delivery, I just placed an order.\n\nName: ${details.studentName}\nPhone: ${details.phone}\nHostel: ${details.hostel}\n\nRequested items:\n${lines}`;
         setSuccess(true);
         onClear();
-        window.open(`https://wa.me/233507479153?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+        window.open(whatsappUrl(message), '_blank', 'noopener,noreferrer');
       },
       onError: () => setError('We could not save the order. Please try again.'),
     });
@@ -255,15 +276,29 @@ function Storefront() {
   const changeCart = (id: number, next: number) => setCart((current) => { const updated = { ...current }; if (next <= 0) delete updated[id]; else updated[id] = next; return updated; });
   return (
     <div className="paper-noise min-h-[100dvh] bg-background">
-      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/90 backdrop-blur-xl"><div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-8"><Brand /><div className="hidden items-center gap-8 md:flex"><span className="text-sm font-medium text-muted-foreground">Delivered across campus</span><Link href="/admin/login" className="text-sm font-bold text-secondary hover:text-primary" data-testid="link-admin-login">Staff access <ArrowRight className="ml-1 inline" size={14} /></Link></div><button onClick={() => setCartOpen(true)} className="relative grid size-11 place-items-center rounded-2xl bg-secondary text-secondary-foreground transition hover:-translate-y-0.5" data-testid="button-open-cart"><ShoppingBag size={19} />{cartCount > 0 && <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-accent px-1 text-[10px] font-bold text-foreground" data-testid="badge-cart-count">{cartCount}</span>}</button></div></header>
+      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/90 backdrop-blur-xl"><div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-8"><Brand /><div className="hidden items-center gap-2 md:flex"><a href={gmailUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-muted-foreground hover:bg-card hover:text-primary"><Mail size={16} /> Email us</a><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-xl bg-[#25D366] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5"><MessageCircle size={17} /> WhatsApp</a><Link href="/admin/login" className="ml-2 text-xs font-bold text-muted-foreground hover:text-primary" data-testid="link-admin-login">Staff</Link></div><button onClick={() => setCartOpen(true)} className="relative grid size-11 place-items-center rounded-2xl bg-secondary text-secondary-foreground transition hover:-translate-y-0.5" data-testid="button-open-cart"><ShoppingBag size={19} />{cartCount > 0 && <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-accent px-1 text-[10px] font-bold text-foreground" data-testid="badge-cart-count">{cartCount}</span>}</button></div></header>
       <main className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
-        <section className="relative overflow-hidden py-12 sm:py-20"><div className="absolute -right-20 top-6 size-72 rounded-full bg-accent/40 blur-[1px] drift" /><div className="absolute right-36 top-24 size-36 rounded-full border-[18px] border-primary/10" /><div className="relative max-w-3xl"><div className="rise-in inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.2em] text-primary"><span className="size-1.5 rounded-full bg-primary" /> Your campus marketplace</div><h1 className="rise-in delay-1 mt-6 max-w-2xl text-[clamp(3rem,8vw,6.8rem)] font-bold leading-[.93] tracking-[-.075em] text-secondary">Good stuff.<br /><span className="text-primary">Right here.</span></h1><p className="rise-in delay-2 mt-6 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">From groceries and self-care to gadgets, home supplies, and last-minute hostel essentials, order what you need and we will bring it across campus.</p><div className="rise-in delay-3 mt-8 flex flex-wrap items-center gap-3 text-xs font-bold text-secondary"><span className="rounded-full bg-accent px-3 py-2">Everyday essentials</span><span className="rounded-full bg-secondary/10 px-3 py-2">Fast hostel drop-off</span><span className="rounded-full bg-secondary/10 px-3 py-2">Order on WhatsApp</span></div></div></section>
-        <section className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">Shop across campus</p><h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Find what you need.</h2></div><div className="flex w-full max-w-sm items-center gap-2 rounded-2xl border border-input bg-card px-3 py-1.5 shadow-sm"><Search size={18} className="text-muted-foreground" /><input value={search} onChange={(e) => setSearch(e.target.value)} className="h-9 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" placeholder="Search products" data-testid="input-product-search" /></div></section>
+        <section className="relative grid items-center gap-10 overflow-hidden py-12 sm:py-20 lg:grid-cols-[1.05fr_.95fr]">
+          <div className="relative z-10">
+            <div className="rise-in inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.2em] text-primary"><span className="size-1.5 rounded-full bg-green-600" /> Taking orders now</div>
+            <h1 className="rise-in delay-1 mt-6 max-w-2xl text-[clamp(3.2rem,8vw,6.6rem)] font-bold leading-[.9] tracking-[-.075em] text-secondary">Campus life,<br /><span className="text-primary">delivered.</span></h1>
+            <p className="rise-in delay-2 mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Groceries, hot meals, self-care and hostel essentials—brought straight to your door without leaving campus.</p>
+            <div className="rise-in delay-3 mt-8 flex flex-wrap gap-3"><a href="#shop" className="flex items-center gap-2 rounded-2xl bg-primary px-5 py-3.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20">Start shopping <ArrowRight size={17} /></a><a href={whatsappUrl()} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-2xl border border-border bg-card px-5 py-3.5 text-sm font-bold text-foreground shadow-sm"><MessageCircle size={17} className="text-[#18a84b]" /> Chat with us</a></div>
+            <div className="rise-in delay-4 mt-8 flex flex-wrap gap-x-6 gap-y-3 text-xs font-bold text-secondary"><span className="flex items-center gap-2"><Zap size={15} className="text-primary" /> Fast campus drop-off</span><span className="flex items-center gap-2"><ShieldCheck size={15} className="text-primary" /> Pay on confirmation</span><span className="flex items-center gap-2"><Star size={15} className="fill-accent text-accent-border" /> Student-friendly</span></div>
+          </div>
+          <div className="relative hidden min-h-[510px] lg:block">
+            <div className="absolute inset-4 rotate-3 rounded-[3rem] bg-accent" />
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1100&q=88" alt="Fresh food and campus essentials ready for delivery" className="relative h-[510px] w-full rounded-[3rem] object-cover shadow-2xl" />
+            <div className="absolute -bottom-1 -left-8 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-xl backdrop-blur"><p className="text-[10px] font-bold uppercase tracking-[.18em] text-primary">Quick & easy</p><p className="mt-1 font-bold text-secondary">Order in under 2 minutes</p></div>
+          </div>
+        </section>
+        <section id="shop" className="mb-8 scroll-mt-28 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-primary">Shop across campus</p><h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Find what you need.</h2></div><div className="flex w-full max-w-sm items-center gap-2 rounded-2xl border border-input bg-card px-3 py-1.5 shadow-sm"><Search size={18} className="text-muted-foreground" /><input value={search} onChange={(e) => setSearch(e.target.value)} className="h-9 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" placeholder="Search products" data-testid="input-product-search" /></div></section>
         <div className="scrollbar-thin mb-7 flex gap-2 overflow-x-auto pb-1">{categories.map((item) => <button key={item} onClick={() => setCategory(item)} className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${category === item ? 'bg-secondary text-secondary-foreground' : 'bg-card text-muted-foreground hover:bg-muted hover:text-foreground'}`} data-testid={`button-category-${item.toLowerCase().replace(/\s+/g, '-')}`}>{item}</button>)}</div>
         {isLoading ? <CatalogSkeleton /> : isError ? <div className="flex min-h-64 flex-col items-center justify-center rounded-[1.6rem] border border-destructive/20 bg-destructive/5 text-center"><CircleAlert className="text-destructive" /><h3 className="mt-3 font-bold">The shelf is taking a minute.</h3><p className="mt-1 text-sm text-muted-foreground">We could not load products right now.</p><button onClick={() => refetch()} className="mt-4 rounded-xl bg-secondary px-4 py-2 text-xs font-bold text-secondary-foreground" data-testid="button-retry-products">Try again</button></div> : <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">{filtered.length ? filtered.map((product) => <ProductCard key={product.id} product={product} quantity={cart[product.id] || 0} onAdd={() => changeCart(product.id, 1)} onChange={(next) => changeCart(product.id, next)} />) : <EmptyCatalog search={search} />}</div>}
-        <section className="mt-16 grid gap-4 rounded-[1.8rem] bg-secondary p-6 text-secondary-foreground sm:grid-cols-[1fr_auto] sm:items-center sm:p-8"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-accent">Need something else?</p><h2 className="mt-2 max-w-lg text-2xl font-bold tracking-tight">Tell us what you need and we will source it.</h2><p className="mt-2 max-w-lg text-sm leading-relaxed text-secondary-foreground/70">We save your order first, then hand you a ready-to-send WhatsApp message with every detail.</p></div><div className="flex items-center gap-2 text-xs font-bold text-accent"><span className="grid size-8 place-items-center rounded-full border border-accent/30"><Check size={15} /></span> Built for campus life</div></section>
-        <footer className="flex flex-col gap-3 border-t border-border py-7 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><span>Campus Delivery · your campus marketplace</span><span className="flex items-center gap-2"><span className={`size-1.5 rounded-full ${health?.status === 'ok' ? 'bg-green-600' : 'bg-accent'}`} /> Service {health?.status === 'ok' ? 'online' : 'ready'}</span></footer>
+        <section className="relative mt-16 overflow-hidden rounded-[2rem] bg-secondary p-7 text-secondary-foreground sm:p-10"><div className="absolute -right-16 -top-20 size-64 rounded-full bg-primary/30" /><div className="relative grid gap-7 sm:grid-cols-[1fr_auto] sm:items-center"><div><p className="text-[10px] font-bold uppercase tracking-[.2em] text-accent">Can’t find it?</p><h2 className="mt-2 max-w-xl text-3xl font-bold tracking-tight">Send us your shopping list. We’ll source it for you.</h2><p className="mt-3 max-w-lg text-sm leading-relaxed text-secondary-foreground/70">Talk directly with a real person on WhatsApp or Gmail. We confirm availability and delivery before you pay.</p></div><div className="flex flex-col gap-3"><a href={whatsappUrl('Hello Campus Delivery, I need help sourcing an item.')} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3.5 text-sm font-bold text-white"><MessageCircle size={17} /> Message on WhatsApp</a><a href={gmailUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-xl bg-white/10 px-5 py-3.5 text-sm font-bold text-white ring-1 ring-white/15"><Mail size={17} /> Send an email</a></div></div></section>
+        <footer className="flex flex-col gap-3 border-t border-border py-7 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} Campus Delivery · Made for Ghanaian campus life</span><span className="flex items-center gap-2"><span className={`size-1.5 rounded-full ${health?.status === 'ok' ? 'bg-green-600' : 'bg-accent'}`} /> Service {health?.status === 'ok' ? 'online' : 'ready'}</span></footer>
       </main>
+      <div className="fixed bottom-5 left-5 z-20 flex gap-2 md:hidden"><a href={whatsappUrl()} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp" className="grid size-12 place-items-center rounded-full bg-[#25D366] text-white shadow-xl"><MessageCircle size={21} /></a><a href={gmailUrl} target="_blank" rel="noreferrer" aria-label="Email us" className="grid size-12 place-items-center rounded-full bg-card text-primary shadow-xl ring-1 ring-border"><Mail size={20} /></a></div>
       {cartOpen && <CartSheet cart={cart} products={safeProducts} onChange={changeCart} onClose={() => setCartOpen(false)} onClear={() => setCart({})} />}
     </div>
   );
