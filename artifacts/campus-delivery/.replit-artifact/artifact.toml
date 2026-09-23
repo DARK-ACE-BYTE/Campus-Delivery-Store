@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Campus Delivery Store"
+description = "A responsive campus delivery storefront for students to browse products, place orders through WhatsApp, and for admins to manage products and order status."
+version = "1.0.0"
+id = "artifacts/campus-delivery"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23826
+
+[services.development]
+run = "pnpm --filter @workspace/campus-delivery run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/campus-delivery", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/campus-delivery/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23826"
+BASE_PATH = "/"
