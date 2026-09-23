@@ -122,8 +122,51 @@ const productImages: Record<string, string> = {
   'plantain chips': 'https://images.unsplash.com/photo-1621447504864-d8686e12698c?auto=format&fit=crop&w=900&q=85',
 };
 
-function productImage(name: string) {
-  return productImages[name.toLowerCase()] || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85';
+const categoryImages: Record<string, string[]> = {
+  'Food & Water': [
+    'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=900&q=85',
+  ],
+  'Toiletries & Cleaning': [
+    'https://images.unsplash.com/photo-1607006344380-b6775a0824a7?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1584306670957-acf935f5033c?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1585832770485-e68a5dbfad52?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&w=900&q=85',
+  ],
+  'Hostel Essentials': [
+    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=900&q=85',
+  ],
+  'Academic Stuff': [
+    'https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1453738773917-9c3eff1db985?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=900&q=85',
+  ],
+  'Quick Chop / Snacks': [
+    'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1575377427642-087cf684f29d?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1497032205916-ac775f0649ae?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=900&q=85',
+  ],
+  'Data & Airtime': [
+    'https://images.unsplash.com/photo-1512428559087-560fa5ce?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85',
+    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=85',
+  ],
+};
+
+function productImage(name: string, category = '') {
+  const exact = productImages[name.toLowerCase()];
+  if (exact) return exact;
+  const options = categoryImages[category] || ['https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85'];
+  const hash = [...name].reduce((total, character) => total + character.charCodeAt(0), 0);
+  return options[hash % options.length];
 }
 
 const demoProducts: Product[] = [
@@ -240,7 +283,7 @@ function ProductCard({ product, quantity, onAdd, onChange }: {
   return (
     <article className="group rise-in overflow-hidden rounded-[1.15rem] border border-border bg-card shadow-[0_10px_35px_rgba(35,52,54,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(35,52,54,.12)]" data-testid={`card-product-${product.id}`}>
       <div className="relative h-48 overflow-hidden bg-muted">
-        <img src={productImage(product.name)} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" data-testid={`img-product-${product.id}`} />
+        <img src={productImage(product.name, product.category)} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy" data-testid={`img-product-${product.id}`} />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-foreground/35 to-transparent" />
         <span className="absolute left-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-secondary">{product.category}</span>
         {!product.available && <span className="absolute right-3 top-3 rounded-full bg-foreground/85 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-background">Sold out</span>}
@@ -306,7 +349,7 @@ function CartSheet({ cart, products, onChange, onClose, onClear }: {
           <form onSubmit={checkout} className="flex min-h-0 flex-1 flex-col">
             <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto p-5">
               <div className="rounded-2xl bg-accent/30 p-4"><div className="flex items-start gap-3"><MessageCircle className="mt-0.5 shrink-0 text-secondary" size={18} /><p className="text-xs leading-relaxed text-secondary"><strong>No prices are shown online.</strong> We will confirm your total and delivery details in WhatsApp before you decide.</p></div></div>
-              <div className="space-y-2">{items.map((product) => <div key={product.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3" data-testid={`row-cart-${product.id}`}><img src={productImage(product.name)} alt="" className="size-12 shrink-0 rounded-xl object-cover" /><div className="min-w-0 flex-1"><p className="truncate text-sm font-bold">{product.name}</p><p className="text-xs text-primary">Price to be confirmed</p></div><div className="flex items-center gap-1 rounded-lg bg-muted p-1"><button type="button" className="grid size-6 place-items-center" onClick={() => onChange(product.id, cart[product.id] - 1)} data-testid={`button-cart-decrease-${product.id}`}><Minus size={13} /></button><span className="w-5 text-center font-mono text-xs">{cart[product.id]}</span><button type="button" className="grid size-6 place-items-center" onClick={() => onChange(product.id, cart[product.id] + 1)} data-testid={`button-cart-increase-${product.id}`}><Plus size={13} /></button></div></div>)}</div>
+              <div className="space-y-2">{items.map((product) => <div key={product.id} className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3" data-testid={`row-cart-${product.id}`}><img src={productImage(product.name, product.category)} alt="" className="size-12 shrink-0 rounded-xl object-cover" /><div className="min-w-0 flex-1"><p className="truncate text-sm font-bold">{product.name}</p><p className="text-xs text-primary">Price to be confirmed</p></div><div className="flex items-center gap-1 rounded-lg bg-muted p-1"><button type="button" className="grid size-6 place-items-center" onClick={() => onChange(product.id, cart[product.id] - 1)} data-testid={`button-cart-decrease-${product.id}`}><Minus size={13} /></button><span className="w-5 text-center font-mono text-xs">{cart[product.id]}</span><button type="button" className="grid size-6 place-items-center" onClick={() => onChange(product.id, cart[product.id] + 1)} data-testid={`button-cart-increase-${product.id}`}><Plus size={13} /></button></div></div>)}</div>
               <div className="border-t border-border pt-4"><p className="mb-3 text-[10px] font-bold uppercase tracking-[.2em] text-muted-foreground">Where should we deliver?</p><div className="space-y-2"><input required value={details.studentName} onChange={(e) => setDetails({ ...details, studentName: e.target.value })} className="h-11 w-full rounded-xl border border-input bg-card px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15" placeholder="Your full name" data-testid="input-student-name" /><input required value={details.phone} onChange={(e) => setDetails({ ...details, phone: e.target.value })} className="h-11 w-full rounded-xl border border-input bg-card px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15" placeholder="Your phone number" data-testid="input-student-phone" /><input required value={details.hostel} onChange={(e) => setDetails({ ...details, hostel: e.target.value })} className="h-11 w-full rounded-xl border border-input bg-card px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15" placeholder="Hostel, neighbourhood or landmark" data-testid="input-student-hostel" /></div></div>
               {error && <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs font-medium text-destructive" data-testid="status-checkout-error">{error}</p>}
             </div>
