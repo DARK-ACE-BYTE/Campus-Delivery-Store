@@ -1,11 +1,15 @@
-# Campus Delivery Store
-A delivery service website for Level 100 students to request products.
+# Campus Delivery Sunyani
 
-## View Live Site
-[![View Live](https://img.shields.io/badge/View_Live_Site-Replit-blue)](https://campus-delivery-store--Jayvanfru.replit.app)
+A local delivery marketplace for the University of Energy and Natural Resources (UENR) and nearby Sunyani customers. Browse products, build a request list, and continue to WhatsApp for private price and delivery confirmation.
 
-## About
-Built  for Ghanaian university students.
+## Preview
 
-## Contact
-Need campus deliveries? WhatsApp me: +233 507 479 153
+[Open the live preview](https://campus-delivery-store--Jayvanfru.replit.app)
+
+## WhatsApp
+
+[Chat with Campus Delivery](https://wa.me/233507479153) at **+233 50 747 9153**.
+
+## Ordering model
+
+Prices are intentionally not displayed online. Customers select products and send a WhatsApp enquiry; the owner confirms availability, total price, delivery fee, and timing directly in chat.
